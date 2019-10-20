@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Question;
 use App\Http\Resources\QuestionResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class QuestionController extends Controller
 {
@@ -48,9 +49,12 @@ class QuestionController extends Controller
      * @param  \App\Model\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(Question $question,Request $request)
     {
-        //
+        // print_r($request->all());
+        $question->update($request->all());
+       
+        return response('Update',Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -62,6 +66,6 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $question->delete();
-        return response(NULL, 204);
+        return response(NULL, Response::HTTP_NO_CONTENT);
     }
 }
