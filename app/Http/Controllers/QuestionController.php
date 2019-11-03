@@ -9,6 +9,10 @@ use Illuminate\Http\Response;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('JWT',['except' =>['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +31,10 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         // auth()->user()->question->create($request->all());
-        Question::create($request->all());
+        $user = auth()->user()->toArray();
+        $data=$request->all();
+        $data['user_id']=$user['id'];
+        Question::create($data);
         return response('Created',201);
     }
 
